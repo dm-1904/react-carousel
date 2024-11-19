@@ -1,16 +1,17 @@
 
+import { useState } from 'react'
 import './App.css'
 
-const nick1 = "https://s.yimg.com/ny/api/res/1.2/Jfa032SBaNLjzg_E_JXCqA--/YXBwaWQ9aGlnaGxhbmRlcjt3PTY0MDtoPTQ4MA--/https://media.zenfs.com/en/homerun/feed_manager_auto_publish_494/d99454ecd37d214296091b98de896aef"
-const nick2 = "https://external-preview.redd.it/Nquj5ynECTrkspLrvh9KcMq7_A2oqWsJA_svsQziCW8.jpg?auto=webp&s=46315cf9895a4165469e7ed9b95e2ffc08c90958"
-const nick3 = "https://cdn.mos.cms.futurecdn.net/8fd2c275eb8bce82bac709da24304625-320-80.jpg"
-const nick4 = "https://imgix.ranker.com/list_img_v2/2993/2502993/original/wtf-nicolas-cage-stories-u1?fit=crop&fm=pjpg&q=80&dpr=2&w=1200&h=720"
-const nick5 = "https://www.looper.com/img/gallery/the-most-paused-nicolas-cage-movie-moments/intro-1595447851.jpg"
-const nick6 = "https://ih1.redbubble.net/image.3454625978.1995/flat,750x,075,f-pad,750x1000,f8f8f8.jpg"
-const nick7 = "https://i.pinimg.com/474x/cb/ac/d9/cbacd9a236b7241164ee9a1b437280a7.jpg"
-const nick8 = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQRShdyfLmy0gnp2uVPjTgOg-6ty-UDNHVzDQ&s"
-const nick9 = "https://i.pinimg.com/474x/59/9c/e4/599ce440de3c22567f55b43c04e3b7c3.jpg"
-const nick10 = "https://upload.wikimedia.org/wikipedia/commons/thumb/2/2b/John_Travolta_1997.jpg/170px-John_Travolta_1997.jpg"
+// const nick1 = "https://s.yimg.com/ny/api/res/1.2/Jfa032SBaNLjzg_E_JXCqA--/YXBwaWQ9aGlnaGxhbmRlcjt3PTY0MDtoPTQ4MA--/https://media.zenfs.com/en/homerun/feed_manager_auto_publish_494/d99454ecd37d214296091b98de896aef"
+// const nick2 = "https://external-preview.redd.it/Nquj5ynECTrkspLrvh9KcMq7_A2oqWsJA_svsQziCW8.jpg?auto=webp&s=46315cf9895a4165469e7ed9b95e2ffc08c90958"
+// const nick3 = "https://cdn.mos.cms.futurecdn.net/8fd2c275eb8bce82bac709da24304625-320-80.jpg"
+// const nick4 = "https://imgix.ranker.com/list_img_v2/2993/2502993/original/wtf-nicolas-cage-stories-u1?fit=crop&fm=pjpg&q=80&dpr=2&w=1200&h=720"
+// const nick5 = "https://www.looper.com/img/gallery/the-most-paused-nicolas-cage-movie-moments/intro-1595447851.jpg"
+// const nick6 = "https://ih1.redbubble.net/image.3454625978.1995/flat,750x,075,f-pad,750x1000,f8f8f8.jpg"
+// const nick7 = "https://i.pinimg.com/474x/cb/ac/d9/cbacd9a236b7241164ee9a1b437280a7.jpg"
+// const nick8 = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQRShdyfLmy0gnp2uVPjTgOg-6ty-UDNHVzDQ&s"
+// const nick9 = "https://i.pinimg.com/474x/59/9c/e4/599ce440de3c22567f55b43c04e3b7c3.jpg"
+// const nick10 = "https://upload.wikimedia.org/wikipedia/commons/thumb/2/2b/John_Travolta_1997.jpg/170px-John_Travolta_1997.jpg"
 
 const images = [
   {
@@ -66,18 +67,43 @@ const images = [
 ]
 
 function App() {
+  const [slideIndex, setSlideIndex] = useState(0);
+  const currentImage = images[slideIndex]
+  const isFirst = slideIndex === 0
+  const isLast = slideIndex === images.length - 1
 
+  const increment = () => {
+    if (slideIndex < images.length -1) {
+      setSlideIndex(slideIndex + 1)
+    }
+  }
+
+  const decrement = () => {
+    if (slideIndex > 0) {
+      setSlideIndex(slideIndex - 1)
+    }
+  }
   return (
     <>
       <div className="carousel">
         <div className="image-container">
-          <img src={nick10} alt="" />
-          <h3>Some Title</h3>
-          <p>This is some description about this image</p>
+          <img src={currentImage.image} alt="" />
+          <h3>{currentImage.title}</h3>
+          <p>{currentImage.description}</p>
         </div>
         <div className="controls">
-          <button>Next</button>
-          <button>Previous</button>
+        <button
+            onClick={() => {
+              decrement()
+             }}
+             disabled={isFirst}
+          >Previous</button>
+          <button
+            onClick={() => {
+              increment()
+            }}
+            disabled={isLast}
+          >Next</button>
         </div>
       </div>
     </>
